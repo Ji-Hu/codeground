@@ -1,0 +1,56 @@
+#include <math.h>
+#include <stdio.h>
+
+#define MIN(a,b) (( (a) < (b) ) ? (a) : (b) )
+#define MAX(a,b) (( (a) > (b) ) ? (a) : (b) )
+#pragma pack(push, 1)
+struct Line {
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+};
+#pragma pack(pop)
+int Answer;
+
+int main(void)
+{
+	int T, test_case, testNum, m, mx, my;
+	struct Line line[100];
+//	freopen("input.txt", "r", stdin);
+	setbuf(stdout, NULL);
+	scanf("%d", &T);
+
+	for (test_case = 0; test_case < T; test_case++)
+	{
+		scanf("%d", &testNum);
+		Answer = 0;
+		for (int i = 0; i<testNum; i++)
+			scanf("%d %d %d %d", &line[i].x1, &line[i].y1, &line[i].x2, &line[i].y2);
+
+		for (int i = 0; i < testNum - 1; i++) {
+			for (int j = testNum - 1; j > i; j--) {
+				m = 0;
+				mx = MIN(MIN(abs(line[i].x1 - line[j].x1), abs(line[i].x2 - line[j].x2)), MIN(abs(line[i].x1 - line[j].x2), abs(line[i].x2 - line[j].x1)));
+				my = MIN(MIN(abs(line[i].y1 - line[j].y1), abs(line[i].y2 - line[j].y2)), MIN(abs(line[i].y1 - line[j].y2), abs(line[i].y2 - line[j].y1)));
+				m = MAX(my, mx);
+				if (m > Answer)
+					Answer = m;
+			}
+		}
+
+		
+		printf("Case #%d\n", test_case + 1);
+		if (Answer % 2 == 0) {
+			Answer /= 2;
+			printf("%d\n", Answer);
+		}
+		else {
+			Answer /= 2;
+			printf("%d.5\n", Answer);
+		}
+
+
+	}
+	return 0;
+}
